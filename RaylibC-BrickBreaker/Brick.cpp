@@ -1,6 +1,11 @@
 #include "Brick.h"
 
-Brick::Brick(Vector2 location, Vector2 size, Game* game) : Actor{ location, size, ColorFromHSV(GetRandomValue(0.5, 360), 1.f, 1.f), game }, isBroken{ false }
+#include "Game.h"
+#include "Ball.h"
+
+#include <raymath.h>
+
+Brick::Brick(Vector2 location, Vector2 size, Game* game) : Actor{ location, size, ColorFromHSV(GetRandomValue(0, 360), 1.f, 1.f), game }, isBroken{ false }
 {}
 
 void Brick::Render()
@@ -15,5 +20,20 @@ void Brick::Render()
 
 void Brick::Tick(float dt)
 {
-	
+	if (isBroken)
+	{
+		return;
+	}
+	Ball* ball = m_game->GetBall();
+
+	Rectangle brickRect = { location.x - size.x * 0.5, location.y - size.y * 0.5, size.x, size.y };
+	float ballRadius = Vector2Length(ball->size);
+
+	if (CheckCollisionCircleRec(ball->location, ballRadius, brickRect))
+	{
+		// we hit a... ... ... BOULDER
+
+		isBroken = true;
+		ball->velocity.y *= -1;
+	}
 }

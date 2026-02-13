@@ -2,10 +2,12 @@
 #include "Actor.h"
 #include "Paddle.h"
 #include "Brick.h"
+#include "Ball.h"
 #include <cstdlib>
+#include <ctime>
 
 Game::Game(int w, int h, string title, Color clrColor)
-	: m_width{ w }, m_height{ h }, m_title{ title }, m_clrColor{clrColor}
+	: m_width{ w }, m_height{ h }, m_title{ title }, m_clrColor{clrColor}, m_ball {nullptr}
 {
 
 	int brickXCount = 7;
@@ -40,8 +42,8 @@ Game::Game(int w, int h, string title, Color clrColor)
 
 	}
 
-	
-	
+	m_ball = new Ball{ this };
+	m_Actors.emplace_back(m_ball);
 	m_Actors.emplace_back(new Paddle{this});
 }
 
@@ -76,6 +78,7 @@ int Game::Run()
 
 		Render();
 
+
 		EndDrawing();
 	}
 
@@ -95,8 +98,14 @@ int Game::GetHeight() const
 	return m_height;
 }
 
+Ball* Game::GetBall()
+{
+	return m_ball;
+}
+
 void Game::BeginPlay()
 {
+	SetRandomSeed(time(nullptr));
 	for (Actor* actor : m_Actors)
 	{
 		actor->BeginPlay();
