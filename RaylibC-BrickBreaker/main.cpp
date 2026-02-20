@@ -12,11 +12,16 @@ int main(int argC, char* argV[])
 
 	InitWindow(screenWidth, screenHeight, "Testing loading images from file");
 
-	Image kite = LoadImage("Resources/testing.png");
+	Image bird = LoadImage("Resources/testing.png");
+	Image orb = LoadImage("Resources/orb.png");
 	//Image secondKite = LoadImage("Resources/kite.png");
 	
-	Texture2D kiteTexture = LoadTextureFromImage(kite);
-	UnloadImage(kite);
+	ImageResize(&orb, 90, 90);
+
+	Texture2D birdTexture = LoadTextureFromImage(bird);
+	Texture2D orbTexture = LoadTextureFromImage(orb);
+	UnloadImage(bird);
+	UnloadImage(orb);
 
 	//UnloadImage(kite);
 	SetTargetFPS(60);
@@ -24,7 +29,8 @@ int main(int argC, char* argV[])
 	{
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
-		DrawTexture(kiteTexture, 200, 30, WHITE);
+		DrawTexture(birdTexture, 200, 30, WHITE);
+		DrawTexture(orbTexture, 600, 90, WHITE);
 		
 		//DrawTexture(kiteTexture, screenWidth / 2 - kiteTexture.width / 2, screenHeight / 2 - kiteTexture.height / 2, WHITE);
 		DrawText("words", 40, -300, 10, BLACK);
@@ -38,7 +44,8 @@ int main(int argC, char* argV[])
 
 //	delete game;
 
-	//UnloadTexture(kiteTexture);
+	UnloadTexture(birdTexture);
+	UnloadTexture(orbTexture);
 
 	CloseWindow();
 
