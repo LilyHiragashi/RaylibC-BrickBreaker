@@ -38,6 +38,9 @@ void Ball::Render()
 
 void Ball::BeginPlay()
 {
+	
+	
+
 	float dir = GetRandomValue(-9, 9) * 0.1;
 	velocity.x = dir;
 
